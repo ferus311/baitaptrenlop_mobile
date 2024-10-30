@@ -1,8 +1,12 @@
 package com.ferus.mobileandroid
+
+import android.app.DatePickerDialog
 import android.os.Bundle
 import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
+import java.text.SimpleDateFormat
+import java.util.*
 
 class BaiBaActivity : AppCompatActivity() {
     private lateinit var mssvEditText: EditText
@@ -10,8 +14,8 @@ class BaiBaActivity : AppCompatActivity() {
     private lateinit var genderRadioGroup: RadioGroup
     private lateinit var emailEditText: EditText
     private lateinit var phoneEditText: EditText
-    private lateinit var showCalendarButton: Button
-    private lateinit var calendarView: CalendarView
+    private lateinit var showDatePickerButton: Button
+    private lateinit var selectedDateTextView: TextView
     private lateinit var wardSpinner: Spinner
     private lateinit var districtSpinner: Spinner
     private lateinit var provinceSpinner: Spinner
@@ -32,8 +36,8 @@ class BaiBaActivity : AppCompatActivity() {
         genderRadioGroup = findViewById(R.id.genderRadioGroup)
         emailEditText = findViewById(R.id.emailEditText)
         phoneEditText = findViewById(R.id.phoneEditText)
-        showCalendarButton = findViewById(R.id.showCalendarButton)
-        calendarView = findViewById(R.id.calendarView)
+        showDatePickerButton = findViewById(R.id.showDatePickerButton)
+        selectedDateTextView = findViewById(R.id.selectedDateTextView)
         wardSpinner = findViewById(R.id.wardSpinner)
         districtSpinner = findViewById(R.id.districtSpinner)
         provinceSpinner = findViewById(R.id.provinceSpinner)
@@ -47,12 +51,8 @@ class BaiBaActivity : AppCompatActivity() {
 
         setupSpinners()
 
-        showCalendarButton.setOnClickListener {
-            if (calendarView.visibility == View.GONE) {
-                calendarView.visibility = View.VISIBLE
-            } else {
-                calendarView.visibility = View.GONE
-            }
+        showDatePickerButton.setOnClickListener {
+            showDatePickerDialog()
         }
 
         submitButton.setOnClickListener {
@@ -60,6 +60,22 @@ class BaiBaActivity : AppCompatActivity() {
                 Toast.makeText(this, "Form submitted successfully!", Toast.LENGTH_SHORT).show()
             }
         }
+    }
+
+    private fun showDatePickerDialog() {
+        val calendar = Calendar.getInstance()
+        val year = calendar.get(Calendar.YEAR)
+        val month = calendar.get(Calendar.MONTH)
+        val day = calendar.get(Calendar.DAY_OF_MONTH)
+
+        val datePickerDialog = DatePickerDialog(this, { _, selectedYear, selectedMonth, selectedDay ->
+            val selectedDate = Calendar.getInstance()
+            selectedDate.set(selectedYear, selectedMonth, selectedDay)
+            val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+            selectedDateTextView.text = "Ngày sinh đã chọn: ${dateFormat.format(selectedDate.time)}"
+        }, year, month, day)
+
+        datePickerDialog.show()
     }
 
     private fun setupSpinners() {
