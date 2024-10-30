@@ -1,27 +1,26 @@
 package com.ferus.mobileandroid
-
-import android.content.res.Resources
+import android.content.Context
 import org.json.JSONObject
+import java.io.BufferedReader
 import java.io.InputStreamReader
 
-class AddressHelper(resources: Resources) {
-
+class AddressHelper(context: Context) {
     private val data: JSONObject
 
     init {
-        val inputStream = resources.openRawResource(R.raw.tree)
-        val reader = InputStreamReader(inputStream)
-        val content = reader.readText()
-        reader.close()
-
-        data = JSONObject(content)
+        val inputStream = context.resources.openRawResource(R.raw.tree)
+        val bufferedReader = BufferedReader(InputStreamReader(inputStream))
+        val stringBuilder = StringBuilder()
+        bufferedReader.forEachLine { stringBuilder.append(it) }
+        data = JSONObject(stringBuilder.toString())
     }
 
     fun getProvinces(): List<String> {
         val list = mutableListOf<String>()
         val keys = data.keys()
-        for (key in keys)
+        for (key in keys) {
             list.add(data.getJSONObject(key).getString("name"))
+        }
         return list
     }
 
@@ -30,17 +29,19 @@ class AddressHelper(resources: Resources) {
         var jProvince: JSONObject? = null
 
         val keys = data.keys()
-        for (key in keys)
-            if (data.getJSONObject(key).getString("name").equals(province)) {
+        for (key in keys) {
+            if (data.getJSONObject(key).getString("name") == province) {
                 jProvince = data.getJSONObject(key)
                 break
             }
+        }
 
         if (jProvince != null) {
             val jDistricts = jProvince.getJSONObject("quan-huyen")
-            val keys = jDistricts.keys()
-            for (key in keys)
+            val districtKeys = jDistricts.keys()
+            for (key in districtKeys) {
                 list.add(jDistricts.getJSONObject(key).getString("name"))
+            }
         }
 
         return list
@@ -52,27 +53,30 @@ class AddressHelper(resources: Resources) {
         var jDistrict: JSONObject? = null
 
         val keys = data.keys()
-        for (key in keys)
-            if (data.getJSONObject(key).getString("name").equals(province)) {
+        for (key in keys) {
+            if (data.getJSONObject(key).getString("name") == province) {
                 jProvince = data.getJSONObject(key)
                 break
             }
+        }
 
         if (jProvince != null) {
             val jDistricts = jProvince.getJSONObject("quan-huyen")
-            val keys = jDistricts.keys()
-            for (key in keys)
-                if (jDistricts.getJSONObject(key).getString("name").equals(district)) {
+            val districtKeys = jDistricts.keys()
+            for (key in districtKeys) {
+                if (jDistricts.getJSONObject(key).getString("name") == district) {
                     jDistrict = jDistricts.getJSONObject(key)
                     break
                 }
+            }
         }
 
         if (jDistrict != null) {
             val jWards = jDistrict.getJSONObject("xa-phuong")
-            val keys = jWards.keys()
-            for (key in keys)
+            val wardKeys = jWards.keys()
+            for (key in wardKeys) {
                 list.add(jWards.getJSONObject(key).getString("name"))
+            }
         }
 
         return list

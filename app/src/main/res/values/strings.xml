@@ -1,3 +1,13 @@
 <resources>
     <string name="app_name">Mobile Android</string>
+    <string name="hint_search">Search</string>
+    <string name="prompt_ward">Phường/Xã</string>
+    <string name="prompt_district">Quận/Huyện</string>
+    <string name="prompt_province">Tỉnh/Thành</string>
+    <string name="submit">Submit</string>
+    <string name="select_date">Chọn ngày sinh</string>
+    <string name="sports">Thể thao</string>
+    <string name="movies">Điện ảnh</string>
+    <string name="music">Âm nhạc</string>
+    <string name="terms">Đồng ý với các điều khoản</string>
 </resources>

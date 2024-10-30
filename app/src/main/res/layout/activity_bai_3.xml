@@ -59,7 +59,7 @@
             android:id="@+id/showCalendarButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Chọn ngày sinh" />
+            android:text="@string/select_date" />
 
         <CalendarView
             android:id="@+id/calendarView"
@@ -71,48 +71,48 @@
             android:id="@+id/wardSpinner"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:prompt="Phường/Xã" />
+            android:prompt="@string/prompt_ward" />
 
         <Spinner
             android:id="@+id/districtSpinner"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:prompt="Quận/Huyện" />
+            android:prompt="@string/prompt_district" />
 
         <Spinner
             android:id="@+id/provinceSpinner"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:prompt="Tỉnh/Thành" />
+            android:prompt="@string/prompt_province" />
 
         <CheckBox
             android:id="@+id/sportsCheckBox"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Thể thao" />
+            android:text="@string/sports" />
 
         <CheckBox
             android:id="@+id/moviesCheckBox"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Điện ảnh" />
+            android:text="@string/movies" />
 
         <CheckBox
             android:id="@+id/musicCheckBox"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Âm nhạc" />
+            android:text="@string/music" />
 
         <CheckBox
             android:id="@+id/termsCheckBox"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Đồng ý với các điều khoản" />
+            android:text="@string/terms" />
 
         <Button
             android:id="@+id/submitButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Submit" />
+            android:text="@string/submit" />
     </LinearLayout>
 </ScrollView>

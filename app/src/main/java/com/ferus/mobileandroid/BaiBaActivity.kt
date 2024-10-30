@@ -1,7 +1,5 @@
 package com.ferus.mobileandroid
-
 import android.os.Bundle
-
 import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
@@ -23,6 +21,8 @@ class BaiBaActivity : AppCompatActivity() {
     private lateinit var termsCheckBox: CheckBox
     private lateinit var submitButton: Button
 
+    private lateinit var addressHelper: AddressHelper
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_bai_3)
@@ -43,6 +43,10 @@ class BaiBaActivity : AppCompatActivity() {
         termsCheckBox = findViewById(R.id.termsCheckBox)
         submitButton = findViewById(R.id.submitButton)
 
+        addressHelper = AddressHelper(this)
+
+        setupSpinners()
+
         showCalendarButton.setOnClickListener {
             if (calendarView.visibility == View.GONE) {
                 calendarView.visibility = View.VISIBLE
@@ -55,6 +59,38 @@ class BaiBaActivity : AppCompatActivity() {
             if (validateForm()) {
                 Toast.makeText(this, "Form submitted successfully!", Toast.LENGTH_SHORT).show()
             }
+        }
+    }
+
+    private fun setupSpinners() {
+        val provinces = addressHelper.getProvinces()
+        val provinceAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, provinces)
+        provinceAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        provinceSpinner.adapter = provinceAdapter
+
+        provinceSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
+                val selectedProvince = provinces[position]
+                val districts = addressHelper.getDistricts(selectedProvince)
+                val districtAdapter = ArrayAdapter(this@BaiBaActivity, android.R.layout.simple_spinner_item, districts)
+                districtAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                districtSpinner.adapter = districtAdapter
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>) {}
+        }
+
+        districtSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
+                val selectedProvince = provinceSpinner.selectedItem.toString()
+                val selectedDistrict = districtSpinner.selectedItem.toString()
+                val wards = addressHelper.getWards(selectedProvince, selectedDistrict)
+                val wardAdapter = ArrayAdapter(this@BaiBaActivity, android.R.layout.simple_spinner_item, wards)
+                wardAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                wardSpinner.adapter = wardAdapter
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>) {}
         }
     }
 
